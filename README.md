@@ -10,7 +10,7 @@ GET
 ---
 Get from Github: 
 ```
-TODO
+https://github.com/sikorka/raft
 ```
 
 
@@ -53,7 +53,8 @@ Enjoy!
 REPORT
 ------
 
-See report [here](target/surefire-reports/TEST-com.ryanair.web.BookOneWayFamilyTest.xml). 
+See report locally [here](target/surefire-reports/). 
+
 
 DOC
 ---
