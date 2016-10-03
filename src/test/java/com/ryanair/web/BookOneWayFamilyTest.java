@@ -35,11 +35,11 @@ public class BookOneWayFamilyTest extends WebTest {
 
             currentPage = bookingPaymentPage;
 
-            bookingPaymentPage.fillAdult(0, "Mr", "Ban", "An");
-            bookingPaymentPage.fillAdult(1, "Mr", "Ufo", "Mun");
+            bookingPaymentPage.fillAdult(0, "Mr", "Halo", "Tam");
+            bookingPaymentPage.fillAdult(1, "Mr", "Jam", "Jest");
             bookingPaymentPage.fillChild(2, "Kim", "Han");
 
-            bookingPaymentPage.fillContactDetails("abe@ala.pl", "Andorra", "123456789");
+            bookingPaymentPage.fillContactDetails("abc@def.de", "Andorra", "123456789");
 
             bookingPaymentPage.fillCardDetails("5555555555555557", "MasterCard", "10", "2018", "167", "Ban An");
             bookingPaymentPage.fillBillingAddress("Einzweidrei", "Berlin");
