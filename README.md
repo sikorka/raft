@@ -60,3 +60,25 @@ DOC
 ---
 
 Just Java docs [here](doc/index.html).
+
+
+TODO
+----
+
+This project is *somewhat* not finished. 
+
+Define *somewhat*: 
+
+- Cucumber tests
+- Allure reports
+
+then: 
+
+- better date selection (fix)
+- already booked error support (fix)
+
+and perhaps:
+
+- Chrome better support
+- Safari support
+- dev branching our of master
