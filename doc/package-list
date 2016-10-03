@@ -1,3 +1,5 @@
 
 com.ryanair.web
+com.ryanair.web.core
 com.ryanair.web.pages
+com.ryanair.web.pages.core

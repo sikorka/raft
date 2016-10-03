@@ -54,3 +54,8 @@ REPORT
 ------
 
 See report [here](target/surefire-reports/TEST-com.ryanair.web.BookOneWayFamilyTest.xml). 
+
+DOC
+---
+
+Just Java docs [here](doc/index.html).
