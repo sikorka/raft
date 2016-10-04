@@ -57,7 +57,12 @@ PS. Do not manipulate mouse or keyboard. Just sayin.
 REPORT
 ------
 
-See report locally [here](target/surefire-reports/). 
+See report locally: 
+
+'''
+mvn site
+open ./target/surefire-reports/surefire-report.html
+'''
 
 
 DOC
