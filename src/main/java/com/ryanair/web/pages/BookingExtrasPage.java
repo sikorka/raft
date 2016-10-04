@@ -25,6 +25,7 @@ public class BookingExtrasPage extends RyanairPage {
 
     public boolean clickNext() {
         if (waitForDisplayed(next_button)) {
+            scrollIntoView(next_button);
             next_button.click();
 
             return true;

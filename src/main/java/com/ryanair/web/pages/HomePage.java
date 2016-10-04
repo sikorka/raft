@@ -2,9 +2,8 @@ package com.ryanair.web.pages;
 
 import com.ryanair.web.DriverHelper;
 import com.ryanair.web.pages.core.RyanairPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -36,8 +35,6 @@ public class HomePage extends RyanairPage {
     private static String dateOneWay_input0_xpath = "//*[@name='dateInput0']";
     @FindBy(xpath = dateOneWay_complexField_xpath)
     public WebElement dateOneWay_input0;
-//    @FindBy(xpath = "//*[contains(@class, 'container-from')]") // "//*[@data-id='MY_DATE']"
-//    public WebElement dateOneWay_text;
     @FindBy(xpath = "//*[@name='passengers']")
     public WebElement passengers_complexField;
     @FindBy(xpath = "//*[@value='paxInput.adults']//button[contains(@class, 'inc')]")
@@ -100,7 +97,7 @@ public class HomePage extends RyanairPage {
         if (waitForDisplayed(toAirport_text)) {
             toAirport_text.clear(); //click() as a user does it, does not work, BAD
             toAirport_text.sendKeys(airportName);
-            toAirport_text.sendKeys("\t");
+            toAirport_text.sendKeys(Keys.TAB);
 
             return true;
         }
@@ -127,8 +124,14 @@ public class HomePage extends RyanairPage {
             if (!waitForPresent(By.xpath("//core-datepicker"))) {
                 dateOneWay_complexField.click();
             }
-            WebElement selectedDate = getDateButton(dateString);
-            selectedDate.click();
+
+            WebElement selectDate = getDateButton(dateString);
+            //in order to click day in dropdown in Chrome it is needed
+            //that the day control is in the view
+            //this is also something user would do - would scroll to see what to click
+            scrollIntoView(selectDate);
+            //only then it can be clicked successfully
+            selectDate.click();
 
             return true;
         }

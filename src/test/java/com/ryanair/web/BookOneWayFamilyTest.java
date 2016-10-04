@@ -35,11 +35,11 @@ public class BookOneWayFamilyTest extends WebTest {
 
             currentPage = bookingPaymentPage;
 
-            bookingPaymentPage.fillAdult(0, "Mr", "Halo", "Tam");
-            bookingPaymentPage.fillAdult(1, "Mr", "Jam", "Jest");
-            bookingPaymentPage.fillChild(2, "Kim", "Han");
+            bookingPaymentPage.fillAdult(0, "Mr", "Hello", "From");
+            bookingPaymentPage.fillAdult(1, "Mr", "The", "Other");
+            bookingPaymentPage.fillChild(2, "Side", "Imhrttt");
 
-            bookingPaymentPage.fillContactDetails("abc@def.de", "Andorra", "123456789");
+            bookingPaymentPage.fillContactDetails("ad@ele.de", "Andorra", "123456789");
 
             bookingPaymentPage.fillCardDetails("5555555555555557", "MasterCard", "10", "2018", "167", "Ban An");
             bookingPaymentPage.fillBillingAddress("Einzweidrei", "Berlin");
@@ -57,11 +57,10 @@ public class BookOneWayFamilyTest extends WebTest {
         }
     }
 
-    @Test
+
     public void fillBookingExtras() {
         if (currentPage.whoAmI().endsWith(BookingExtrasPage.PATH)) {
             BookingExtrasPage bookingExtrasPage = new BookingExtrasPage(driver);
-
             currentPage = bookingExtrasPage;
 
             bookingExtrasPage.clickNext();
@@ -70,7 +69,8 @@ public class BookOneWayFamilyTest extends WebTest {
                 bookingExtrasPage.closeSeatPopup();
             }
 
-            assertThat("should move forward, still booking home page",
+            currentPage.waitForPath(BookingPaymentPage.PATH);
+            assertThat("should move forward, still booking extras page",
                     currentPage.whoAmI(), not(equalTo(BookingExtrasPage.PATH)));
             assertThat("should move to booking payment page, did not",
                     currentPage.whoAmI(), equalTo(BookingPaymentPage.PATH));
@@ -79,7 +79,7 @@ public class BookOneWayFamilyTest extends WebTest {
         }
     }
 
-    @Test
+
     public void fillBookingDetails() {
         if (currentPage.whoAmI().endsWith(BookingHomePage.PATH)) {
             BookingHomePage bookingHomePage = new BookingHomePage(driver);
@@ -92,6 +92,7 @@ public class BookOneWayFamilyTest extends WebTest {
                 currentPage.closePromo();
             }
 
+            currentPage.waitForPath(BookingExtrasPage.PATH);
             assertThat("should move forward, still booking home page",
                     currentPage.whoAmI(), not(equalTo(BookingHomePage.PATH)));
             assertThat("should move to booking extras page, did not",
@@ -101,37 +102,38 @@ public class BookOneWayFamilyTest extends WebTest {
         }
     }
 
-    @Test
+
     public void fillFlightDetails() {
         HomePage homepage = new HomePage(driver);
         currentPage = homepage;
 
         homepage.open();
-        assert homepage.clickOneWay();
+        homepage.clickOneWay();
         assertThat("should select one way check box, but did not select it",
                 homepage.oneWay_checkBox.isSelected());
 
-        assert homepage.typeFromAirport(FROM_CODE);
-        //homepage.waitForFromAirportText("Dublin");
+        homepage.typeFromAirport(FROM_CODE);
+        homepage.waitForFromAirportText(FROM_EXPECTED);
         assertThat("should select Dublin as departure airport, it did not",
                 homepage.getFromAirportText(), equalTo(FROM_EXPECTED));
 
-        assert homepage.typeToAirport(TO_CODE);
-        //homepage.waitForToAirportText("Berlin (SXF)");
+        homepage.typeToAirport(TO_CODE);
+        homepage.waitForToAirportText(TO_EXPECTED);
         assertThat("should select Berlin as destination airport, it did not",
                 homepage.getToAirportText(), equalTo(TO_EXPECTED));
 
-        assert homepage.provideFromDate(FROM_DATE);
+        homepage.provideFromDate(FROM_DATE);
 
-        assert homepage.openPassengersDropdown();
-        assert homepage.addAdult();
-        assert homepage.addChild();
-        assert homepage.searchFlights();
+        homepage.openPassengersDropdown();
+        homepage.addAdult();
+        homepage.addChild();
+        homepage.searchFlights();
 
         if (currentPage.waitForPromoDisplayed()) {
             currentPage.closePromo();
         }
 
+        currentPage.waitForPath(BookingHomePage.PATH);
         assertThat("should move forward, still home page",
                 currentPage.whoAmI(), not(equalTo(HomePage.PATH)));
         assertThat("should move to booking home page, did not",

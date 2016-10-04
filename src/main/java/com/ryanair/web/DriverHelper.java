@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Helps with creating drivers.
  */
@@ -31,9 +33,7 @@ public abstract class DriverHelper {
                     "Provide it in 'system.properties' or in mvn command 'mvn clean test -Dbrowser=ff', or in IDE'a VM arguments. ");
 
             return null; //no browser specified
-
-            //throw new NoBrowserSelectedException("No browser selected in system properties. Provide it in 'system.properties' or in mvn command 'mvn clean test -Dbrowser=ff'.");
-        }
+       }
 
         return driver;
     }
@@ -48,6 +48,7 @@ public abstract class DriverHelper {
             driver = new ChromeDriver();
 
             driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         }
         return driver;
     }
@@ -56,7 +57,7 @@ public abstract class DriverHelper {
         if (driver == null) {
             //create an instance of FF driver
             //this just works (tested with FF 46.0.1 and Selenium 2)
-            //although supossed to work with lower
+            //although supposed to work with lower
             driver = new FirefoxDriver();
 
             driver.manage().window().maximize();
@@ -76,12 +77,6 @@ public abstract class DriverHelper {
         if (mainUrl == null)
             mainUrl = PropertiesHelper.getMainUrl();
         return mainUrl;
-    }
-
-    private static class NoBrowserSelectedException extends Exception {
-        NoBrowserSelectedException(String reason) {
-            super(reason);
-        }
     }
 }
 

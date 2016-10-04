@@ -46,4 +46,5 @@ public abstract class RyanairPage extends Page {
     public void closePromo() {
         driver.findElement(By.xpath("//*[contains(@class, 'promo-popup-close')]")).click();
     }
+
 }

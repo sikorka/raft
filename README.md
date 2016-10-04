@@ -42,12 +42,16 @@ Used technologies / tools:
 
 RUN
 ---
-Run using
+From command line:
+
 ```
 mvn clean test -Dbrowser=ff
+mvn clean test -Dbrowser=chrome
 ```
 
-Enjoy!
+Sit, watch, touch nothing and enjoy! 
+
+PS. Do not manipulate mouse or keyboard. Just sayin.
 
 
 REPORT
@@ -74,7 +78,6 @@ Define *somewhat*:
 
 then: 
 
-- better date selection (fix)
 - already booked error support (fix)
 
 and perhaps:

@@ -35,6 +35,7 @@ public class BookingHomePage extends RyanairPage {
 
     public boolean clickContinue() {
         if (waitForDisplayed(continue_button)) {
+            scrollIntoView(continue_button);
             continue_button.click();
 
             return true;
