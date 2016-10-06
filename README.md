@@ -75,7 +75,7 @@ or run `mvn jetty:run` and open `open http://localhost:8080`
 DOC
 ---
 
-Just Java docs `./`.
+Just Java docs `open ./doc/index.html`.
 
 
 TODO
