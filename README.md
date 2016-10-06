@@ -3,14 +3,14 @@ This is a guide on how to run **raft** = RyanAir Automated Functional Test.
 
 WHY
 ---
-Playing Ryanair site. They are functional and run locally. 
+Playing Ryanair site. Tests are functional and run locally. 
 
 
 GET
 ---
 Get from Github: 
 ```
-https://github.com/sikorka/raft
+git clone https://github.com/sikorka/raft.git
 ```
 
 
@@ -27,19 +27,20 @@ Anyhow here is what you need on Mac:
  - setup Maven locally
 
 
-
 Used technologies / tools: 
 
 - Mac OSX El Capitan
-- FF 46.0.1, Chrome 51.0 (Safari 10.0 won't work, FF > 46.0.1 neither)
+- FF 46.0.1, Chrome 51.0 
+  (Safari 10.0 won't work, FF > 46.0.1 neither)
 - Java 1.8
 - Maven 3.3.9
-- JUnit 4.11
-- Selenium 2.53.1
+- JUnit
+- Selenium
 - Spock
 - Hamcrest
 - Allure
 
+It is important to have the specific versions installed, otherwise things might not fly.
 
 RUN
 ---
@@ -56,19 +57,25 @@ Sit, watch, touch nothing and enjoy!
 REPORT
 ------
 
-See report locally: 
+Generate report locally: 
 
 ```
 mvn site
 ```
 
-To see report open local file `/site/allure-maven-plugin.html` (or run 
-`mvn jetty:run` and open `http://localhost:8080` in your browser). 
+To see report: 
+
+```
+open ./target/site/allure-maven-plugin.html
+```
+
+or run `mvn jetty:run` and open `open http://localhost:8080` 
+
 
 DOC
 ---
 
-Just Java docs [here](doc/index.html).
+Just Java docs `./`.
 
 
 TODO
@@ -82,9 +89,28 @@ Define *somewhat*:
 
 then: 
 
-- already booked error support (fix)
-
-and perhaps:
-
 - Safari support
 - dev branching our of master
+
+
+TROUBLES ?
+----------
+
+### chrome does not launch
+
+ - download chromedriver and install
+ - remove ~/.m2/repository/webdriver/chromedriver (or try running `mvn clean test -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver`)
+ 
+### allure not found
+
+put in your ~/.m2/settings.xml allure
+
+```
+<settings>
+<pluginGroups>
+  <!-- your existing plugin groups if any -->
+
+  <pluginGroup>ru.yandex.qatools.allure</pluginGroup>
+</pluginGroups>
+</settings>
+```
