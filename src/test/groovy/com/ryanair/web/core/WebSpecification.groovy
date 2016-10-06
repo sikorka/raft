@@ -5,50 +5,48 @@ import com.ryanair.web.pages.BookingExtrasPage;
 import com.ryanair.web.pages.BookingHomePage;
 import com.ryanair.web.pages.BookingPaymentPage;
 import com.ryanair.web.pages.HomePage;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
+import spock.lang.Specification;
 
 /**
- * Any test.
+ * Created by ana.
  */
-public abstract class WebTest {
-    protected static WebDriver driver;
+public class WebSpecification extends Specification {
+    WebDriver driver;
 
     private HomePage homePage;
     private BookingHomePage bookingHomePage;
     private BookingExtrasPage bookingExtrasPage;
     private BookingPaymentPage bookingPaymentPage;
 
-    @BeforeClass
-    public static void setUp() {
+    def setup() {
         driver = DriverHelper.getDriverFromProps();
     }
 
-    @AfterClass
-    public static void tearDown() {
+    def cleanup() {
         DriverHelper.getRidOfDriver();
+        driver = null;
     }
 
-    public HomePage getHomePage() {
+    def getHomePage() {
         if (homePage == null)
             homePage = new HomePage(driver);
         return homePage;
     }
 
-    public BookingHomePage getBookingHomePage() {
+    def getBookingHomePage() {
         if (bookingHomePage == null)
             bookingHomePage = new BookingHomePage(driver);
         return bookingHomePage;
     }
 
-    public BookingExtrasPage getBookingExtrasPage() {
+    def getBookingExtrasPage() {
         if (bookingExtrasPage == null)
             bookingExtrasPage = new BookingExtrasPage(driver);
         return bookingExtrasPage;
     }
 
-    public BookingPaymentPage getBookingPaymentPage() {
+    def getBookingPaymentPage() {
         if (bookingPaymentPage == null)
             bookingPaymentPage = new BookingPaymentPage(driver);
         return bookingPaymentPage;

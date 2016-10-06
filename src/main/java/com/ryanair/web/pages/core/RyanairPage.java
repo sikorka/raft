@@ -18,10 +18,10 @@ public abstract class RyanairPage extends Page {
         super(driver);
     }
 
-    /** Recognizes Ryanair page it is at right now and returns a unique name for it.
+    /** Recognizes current page's path.
      *
-     * @return web page name related to path - if current URL matches
-     * main URL AND a recognized URL's path; <code>null</code> - if not recognized
+     * @return web page path after main URL - if current URL matches
+     * main URL AND a recognized URL's path, <code>null</code> if not
      *
      * */
     public String whoAmI() {
@@ -47,4 +47,10 @@ public abstract class RyanairPage extends Page {
         driver.findElement(By.xpath("//*[contains(@class, 'promo-popup-close')]")).click();
     }
 
+    /**
+     * Checks if page objects matches URL's path.
+     *
+     * @return <code>true</code> if page object matches its URLs path,
+     * <code>false</code> otherwise. */
+    public abstract boolean amIme();
 }

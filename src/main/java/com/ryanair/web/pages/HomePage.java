@@ -1,10 +1,14 @@
 package com.ryanair.web.pages;
 
 import com.ryanair.web.DriverHelper;
+import com.ryanair.web.LogHelper;
 import com.ryanair.web.pages.core.RyanairPage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 
 /**
  * The landing page with flight search.
@@ -12,8 +16,15 @@ import org.openqa.selenium.support.FindBy;
 public class HomePage extends RyanairPage {
     /** URL's path after main URL. */
     public static final String PATH = "";
+    public static final String NEXT_PATH = BookingHomePage.PATH;
 
-    static final String url = DriverHelper.getMainUrl();
+    /** By default one adult passenger selected in flight search. */
+    private static final int DEFAULT_ADULTS_AMOUNT = 1;
+    private static final int DEFAULT_CHILDREN_AMOUNT = 0;
+
+    private static final boolean DEFAULT_ONE_WAY_FLIGHT_SELECTED = false;
+
+    String url = DriverHelper.getMainUrl();
 
     private static final String oneWay_checkBox_xpath = "//input[@id='flight-search-type-option-one-way']";
     @FindBy(xpath = oneWay_checkBox_xpath)
@@ -32,7 +43,7 @@ public class HomePage extends RyanairPage {
     private static final String dateOneWay_complexField_xpath = "//*[contains(@class, 'container-from')]//*[contains(@class, 'select-date')]";
     @FindBy(xpath = dateOneWay_complexField_xpath)
     public WebElement dateOneWay_complexField;
-    private static String dateOneWay_input0_xpath = "//*[@name='dateInput0']";
+    private static final String dateOneWay_input0_xpath = "//*[@name='dateInput0']";
     @FindBy(xpath = dateOneWay_complexField_xpath)
     public WebElement dateOneWay_input0;
     @FindBy(xpath = "//*[@name='passengers']")
@@ -47,6 +58,10 @@ public class HomePage extends RyanairPage {
     /** Home page needs a driver. */
     public HomePage(WebDriver driver) {
         super(driver);
+    }
+
+    public boolean amIme() {
+        return whoAmI().endsWith(PATH);
     }
 
     /** Opens home page in driver browser. Returns when loaded. */
@@ -143,7 +158,7 @@ public class HomePage extends RyanairPage {
     }
 
     /** @return <code>true</code> if passengers box displayed and clicked,
-     * <code>false</code> means dropdown will likely be missing */
+     * <code>false</code> means dropdown will be missing */
     public boolean openPassengersDropdown() {
         if (waitForDisplayed(passengers_complexField)) {
             passengers_complexField.click(); //opens dropdown
@@ -174,5 +189,79 @@ public class HomePage extends RyanairPage {
             return true;
         }
         return false; //button's missing
+    }
+
+    public void addAdults(int adults) {
+        for (int i = DEFAULT_ADULTS_AMOUNT; i < adults; i++) {
+            addAdult();
+        }
+    }
+
+    public void addChildren(int children) {
+        for (int i = DEFAULT_CHILDREN_AMOUNT; i < children; i++) {
+            addChild();
+        }
+    }
+
+
+    /**
+     * Fills details on home page and submits.
+     *
+     *  @param oneWay true if one way flight should be chosen
+     *  @param fromCode the code of departure airport
+     *  @param fromSelected the expected selected departure airport name
+     *  @param toCode the code of destination airport
+     *  @param toSelected the expected selected destination airport
+     *  @param fromDate the date of departure, in expected format, see below
+     *  @param adults amount of adults (not yet implemented)
+     *  @param children amount of children (not yet implemented)
+     *
+     *  @see HomePage#provideFromDate(String) provideFromDate()
+     *  @see HomePage#DEFAULT_ADULTS_AMOUNT
+     *  @see HomePage#DEFAULT_CHILDREN_AMOUNT
+     *  @see HomePage#DEFAULT_ONE_WAY_FLIGHT_SELECTED
+     *  */
+    public void fillFlightDetails(boolean oneWay,
+                                  String fromCode, String fromSelected,
+                                  String toCode, String toSelected,
+                                  String fromDate,
+                                  int adults, int children) {
+        open();
+
+        if (oneWay) {
+            clickOneWay();
+            assertThat("should select one way check box, but did not select it",
+                    oneWay_checkBox.isSelected());
+        }
+
+        typeFromAirport(fromCode);
+        waitForFromAirportText(fromSelected);
+        assertThat("should select Dublin as departure airport, it did not",
+                getFromAirportText(), equalTo(fromSelected));
+
+        typeToAirport(toCode);
+        waitForToAirportText(toSelected);
+        assertThat("should select Berlin as destination airport, it did not",
+                getToAirportText(), equalTo(toSelected));
+
+        provideFromDate(fromDate);
+
+        openPassengersDropdown();
+        addAdults(adults);
+        addChildren(children);
+
+        searchFlights();
+
+        if (waitForPromoDisplayed()) {
+            closePromo();
+        }
+
+        waitForPath(NEXT_PATH);
+        assertThat("should move forward, still home page",
+                whoAmI(), not(equalTo(PATH)));
+        assertThat("should move to booking home page, did not",
+                whoAmI(), equalTo(NEXT_PATH));
+
+        LogHelper.success("passed flight details on home page");
     }
 }

@@ -1,11 +1,17 @@
 package com.ryanair.web.pages;
 
+import com.ryanair.web.DriverHelper;
+import com.ryanair.web.Utils;
 import com.ryanair.web.pages.core.RyanairPage;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 /**
  * Booking payment page.
@@ -13,6 +19,8 @@ import org.openqa.selenium.support.ui.Select;
 public class BookingPaymentPage extends RyanairPage {
 
     public static final String PATH = "booking/payment";
+    private static final int DEFAULT_ADULTS_AMOUNT = 1;
+    private static final int DEFAULT_CHILDREN_AMOUNT = 0;
 
     @FindBy(xpath = "//*[contains(@id, 'emailAddress')]")
     public WebElement emailAddress_input;
@@ -48,13 +56,23 @@ public class BookingPaymentPage extends RyanairPage {
     @FindBy(xpath = "//button[@translate='common.components.payment_forms.pay_now']")
     public WebElement submit_button;
 
+    private static final String paymentDeclinedError_box_xpath = "//prompt[@ng-switch-when='PaymentDeclined']";
+    @FindBy(xpath = paymentDeclinedError_box_xpath)
+    public WebElement paymentDeclinedError_box;
 
     public BookingPaymentPage(WebDriver driver) {
         super(driver);
     }
 
-    public boolean waitForPaymentDeclined() {
-        return waitForPresent(By.xpath("//prompt[@ng-switch-when='PaymentDeclined']"));
+    public boolean amIme() {
+        return whoAmI().endsWith(PATH);
+    }
+
+    public boolean waitForPaymentDeclinedError() {
+        boolean found = waitForPresent(By.xpath(paymentDeclinedError_box_xpath));
+        scrollIntoView(paymentDeclinedError_box);
+        DriverHelper.takeScreenshot("paymentDeclined");
+        return found;
     }
 
     public void fillAdult(int index, String title, String firstName, String lastName) {
@@ -108,4 +126,32 @@ public class BookingPaymentPage extends RyanairPage {
     public void submitPayment() {
         submit_button.click();
     }
+
+    public void fillWrongCardDetails(int adults, int children) {
+        if (amIme()) {
+            fillAdults(adults);
+            fillChildren(adults, children);
+
+            fillContactDetails("ad@ele.de", "Andorra", "123456789");
+
+            fillCardDetails("5555555555555557", "MasterCard", "10", "2018", "167", "Ban An");
+            fillBillingAddress("Einzweidrei", "Berlin");
+            acceptTerms();
+
+            submitPayment();
+        }
+    }
+
+    public void fillAdults(int adults) {
+        for (int i = 0; i < adults; i++) {
+            fillAdult(i, "Mr", "Hello" + Utils.threeLetters(), "There" + Utils.threeLetters());
+        }
+    }
+
+    public void fillChildren(int adultsAdded, int children) {
+        for (int i = adultsAdded; i < adultsAdded + children; i++) {
+            fillChild(i, "Baby" + Utils.threeLetters(), "Blue" + Utils.threeLetters());
+        }
+    }
+
 }

@@ -2,6 +2,9 @@
  * Created by ana.
  */
 
+import com.ryanair.web.LogHelper;
+import com.ryanair.web.pages.BookingPaymentPage;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Random;
 
 /**
  * This is a main one-pager test class for the project to verify basic things are flying nice.
@@ -88,6 +92,8 @@ public class TestSelenium {
                 new ChromeDriver()}) {
             runGoogleScenario(d);
         }
+
     }
+
 
 }

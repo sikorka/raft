@@ -1,5 +1,7 @@
 package com.ryanair.web.pages.core;
 
+import com.ryanair.web.DriverHelper;
+import com.ryanair.web.LogHelper;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -87,12 +89,23 @@ public abstract class Page {
         } return true;
     }
 
-    protected void scrollIntoView(WebElement element) {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    /** Uses JS to scroll an element into view. If it can't scroll handles exception and continues.
+     * @param element an element to scroll into view
+     * @return true if not exception (assuming: scrolled), false otherwise*/
+    protected boolean scrollIntoView(WebElement element) {
         try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                LogHelper.fail("sth went wrong with scrolling element into view");
+                return false;
+            }
+        } catch (NoSuchElementException e) {
+            LogHelper.fail("could not find element");
+            DriverHelper.takeScreenshot("scrollingIntoView");
+            return false;
         }
+        return true;
     }
 }

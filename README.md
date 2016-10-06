@@ -91,6 +91,7 @@ then:
 
 - Safari support
 - dev branching our of master
+- screnshots in allure steps
 
 
 TROUBLES ?

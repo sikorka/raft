@@ -13,4 +13,8 @@ public class LogHelper {
     public static void success(String s) {
         report("GREAT: " + s);
     }
+
+    public static void fail(String s)  {
+        report("TOO BAD: " + s);
+    }
 }

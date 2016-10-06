@@ -1,9 +1,14 @@
 package com.ryanair.web;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -77,6 +82,24 @@ public abstract class DriverHelper {
         if (mainUrl == null)
             mainUrl = PropertiesHelper.getMainUrl();
         return mainUrl;
+    }
+
+    public static boolean takeScreenshot(String name) {
+        String currentWorkingDir = System.getProperty("user.dir");
+        File imgDir = new File(currentWorkingDir + "/target/screenshots/");
+        if (!imgDir.exists()) {
+            imgDir.mkdirs();
+        }
+
+        File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(scrFile, new File(imgDir.getAbsolutePath() + "/" + name + "-" + System.currentTimeMillis() + ".png"));
+        } catch (IOException e) {
+            LogHelper.fail("can't save screenshot");
+            return false;
+        }
+
+        return true;
     }
 }
 
