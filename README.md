@@ -3,7 +3,7 @@ This is a guide on how to run **raft** = RyanAir Automated Functional Test.
 
 WHY
 ---
-These are tests for Ryanair interview. They are functional and run locally. 
+Playing Ryanair site. They are functional and run locally. 
 
 
 GET
@@ -38,6 +38,7 @@ Used technologies / tools:
 - Selenium 2.53.1
 - Spock
 - Hamcrest
+- Allure
 
 
 RUN
@@ -51,19 +52,18 @@ mvn clean test -Dbrowser=chrome
 
 Sit, watch, touch nothing and enjoy! 
 
-PS. Do not manipulate mouse or keyboard. Just sayin.
-
 
 REPORT
 ------
 
 See report locally: 
 
-'''
+```
 mvn site
-open ./target/surefire-reports/surefire-report.html
-'''
+```
 
+To see report open local file `/site/allure-maven-plugin.html` (or run 
+`mvn jetty:run` and open `http://localhost:8080` in your browser). 
 
 DOC
 ---
@@ -79,7 +79,6 @@ This project is *somewhat* not finished.
 Define *somewhat*: 
 
 - Cucumber tests
-- Allure reports
 
 then: 
 
@@ -87,6 +86,5 @@ then:
 
 and perhaps:
 
-- Chrome better support
 - Safari support
 - dev branching our of master
