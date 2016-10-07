@@ -16,8 +16,13 @@ git clone https://github.com/sikorka/raft.git
 
 ENV
 ---
-Tested on Mac OSX El Capitan so if you have it that's great! 
-(It might work on other platforms but was not tested with any.)
+Tested on:
+
+ - Mac OSX El Capitan and 
+ - Microsoft Windows 8.1 (without report generation though) 
+ 
+So if you have one that's great! 
+(It might work on other platforms but was not tested.)
 
 
 Anyhow here is what you need on Mac:
@@ -32,7 +37,7 @@ Used technologies / tools:
 - Mac OSX El Capitan
 - FF 46.0.1, Chrome 51.0 
   (Safari 10.0 won't work, FF > 46.0.1 neither)
-- Java 1.8
+- JDK 1.8
 - Maven 3.3.9
 - JUnit
 - Selenium
@@ -41,6 +46,7 @@ Used technologies / tools:
 - Allure
 
 It is important to have the specific versions installed, otherwise things might not fly.
+
 
 RUN
 ---
@@ -99,12 +105,24 @@ TROUBLES ?
 
 ### chrome does not launch
 
- - download chromedriver and install
- - remove ~/.m2/repository/webdriver/chromedriver (or try running `mvn clean test -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver`)
+First download chromedriver, install. Then: 
+
+- put it in your `PATH` variable or
+- define driver in `src\test\resources\system.properties` or
+- from command line:
+```
+mvn clean test -Dbrowser=chrome -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver
+mvn clean test -Dbrowser=chrome -Dwebdriver.chrome.driver=C\Users\You\Programs\chromedrier.exe
+```
+
+And you might need to: 
+
+- remove `~/.m2/repository/webdriver/chromedriver` 
+ 
  
 ### allure not found
 
-put in your ~/.m2/settings.xml allure
+Put allure in your `~/.m2/settings.xml`: 
 
 ```
 <settings>
