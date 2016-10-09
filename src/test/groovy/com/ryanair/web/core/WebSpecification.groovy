@@ -4,8 +4,12 @@ import com.ryanair.web.DriverHelper;
 import com.ryanair.web.pages.BookingExtrasPage;
 import com.ryanair.web.pages.BookingHomePage;
 import com.ryanair.web.pages.BookingPaymentPage;
-import com.ryanair.web.pages.HomePage;
-import org.openqa.selenium.WebDriver;
+import com.ryanair.web.pages.HomePage
+import org.openqa.selenium.OutputType
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver
+import ru.yandex.qatools.allure.annotations.Attachment
+import ru.yandex.qatools.allure.annotations.Step;
 import spock.lang.Specification;
 
 /**
@@ -26,6 +30,12 @@ public class WebSpecification extends Specification {
     def cleanup() {
         DriverHelper.getRidOfDriver();
         driver = null;
+    }
+
+    @Attachment
+    @Step("Make screenshot of page")
+    public byte[] makeScreenShot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
     def getHomePage() {

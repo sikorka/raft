@@ -27,11 +27,13 @@ class BookOneWayFamilySpec extends WebSpecification {
         then:
             assertThat("should not move forward, still payment page",
                 getBookingPaymentPage().whoAmI(), equalTo(BookingPaymentPage.PATH));
-        and:
+
             assertThat("payment should be declined and error displayed",
                     getBookingPaymentPage().waitForPaymentDeclinedError());
-            DriverHelper.takeScreenshot("paymentDeclined");
+
         and:
+            makeScreenShot();
+            DriverHelper.takeScreenshot("paymentDeclined");
             LogHelper.success("passed, payment error is displayed at " + BookingPaymentPage.PATH + " page");
 
         where:

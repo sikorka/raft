@@ -16,36 +16,34 @@ git clone https://github.com/sikorka/raft.git
 
 ENV
 ---
-Tested on:
+Tested on: 
 
  - Mac OSX El Capitan and 
- - Microsoft Windows 8.1 (without report generation though) 
- 
-So if you have one that's great! 
-(It might work on other platforms but was not tested.)
+ - Microsoft Windows 8.1 
+    (tested without report generation though) 
+
+So if you have one that's great! It might work on other platforms but was not tested. 
 
 
-Anyhow here is what you need on Mac:
+Anyhow here is what you need: 
 
- - setup browsers locally
- - setup Java locally
- - setup Maven locally
+ - setup browsers locally: 
+    FF 46.0.1 and/or Chrome 51.0 
+    (Safari 10.0 won't work, FF > 46.0.1 neither) 
+ - setup JDK 1.8 locally 
+ - setup Maven 3.3.9 locally 
+
+It is important to have the specific versions installed, otherwise things might not fly. 
 
 
+TECH
+----
 Used technologies / tools: 
-
-- Mac OSX El Capitan
-- FF 46.0.1, Chrome 51.0 
-  (Safari 10.0 won't work, FF > 46.0.1 neither)
-- JDK 1.8
-- Maven 3.3.9
 - JUnit
 - Selenium
 - Spock
 - Hamcrest
 - Allure
-
-It is important to have the specific versions installed, otherwise things might not fly.
 
 
 RUN
@@ -97,7 +95,6 @@ then:
 
 - Safari support
 - dev branching our of master
-- screnshots in allure steps
 
 
 TROUBLES ?
@@ -118,9 +115,9 @@ mvn clean test -Dbrowser=chrome -Dwebdriver.chrome.driver=C\Users\You\Programs\c
 And you might need to: 
 
 - remove `~/.m2/repository/webdriver/chromedriver` 
- 
- 
-### allure not found
+
+
+### allure not found 
 
 Put allure in your `~/.m2/settings.xml`: 
 

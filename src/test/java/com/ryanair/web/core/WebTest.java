@@ -7,7 +7,11 @@ import com.ryanair.web.pages.BookingPaymentPage;
 import com.ryanair.web.pages.HomePage;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import ru.yandex.qatools.allure.annotations.Attachment;
+import ru.yandex.qatools.allure.annotations.Step;
 
 /**
  * Any test.
@@ -29,6 +33,13 @@ public abstract class WebTest {
     public static void tearDown() {
         DriverHelper.getRidOfDriver();
     }
+
+    @Attachment
+    @Step("Make screenshot of page")
+    public byte[] makeScreenShot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
 
     public HomePage getHomePage() {
         if (homePage == null)

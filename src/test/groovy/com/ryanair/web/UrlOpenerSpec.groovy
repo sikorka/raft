@@ -16,7 +16,8 @@ class UrlOpenerSpec extends WebSpecification {
         getDriver().navigate().to(url);
 
         then:
-        assertThat(getDriver().getCurrentUrl(), equalTo(expectedUrl))
+        makeScreenShot();
+        assertThat(getDriver().getCurrentUrl(), equalTo(expectedUrl));
 
         where:
         url                              | expectedUrl
