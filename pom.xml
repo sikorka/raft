@@ -96,12 +96,6 @@
             <artifactId>allure-junit-adaptor</artifactId>
             <version>${allure.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/ru.yandex.qatools.allure/allure-spock-0.7-adaptor -->
-        <dependency>
-            <groupId>ru.yandex.qatools.allure</groupId>
-            <artifactId>allure-spock-0.7-adaptor</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <!-- Taking full page screenshots in chrome. -->
         <dependency>
@@ -176,7 +170,7 @@
                     </dependency>
                     <dependency>
                         <groupId>ru.yandex.qatools.allure</groupId>
-                        <artifactId>allure-spock-0.7-adaptor</artifactId>
+                        <artifactId>allure-spock-1.0-adaptor</artifactId>
                         <version>1.0</version>
                     </dependency>
                 </dependencies>
