@@ -1,5 +1,7 @@
 package com.ryanair.web;
 
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
+import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -7,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -100,6 +103,19 @@ public abstract class DriverHelper {
         }
 
         return true;
+    }
+
+    /** Takes full page screenshots.
+     * @param driver browser handling driver */
+    public static byte[] takeScreenshot(WebDriver driver) {
+        //chrome does not take full page screenshots at this time
+        if (driver instanceof ChromeDriver)
+            return ((DataBufferByte) Shutterbug.shootPage(driver, ScrollStrategy.BOTH_DIRECTIONS)
+                    .getImage()
+                    .getData()
+                    .getDataBuffer()).getData();
+
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 }
 
