@@ -13,7 +13,8 @@ import spock.lang.Unroll
 class BookOneWayFamilySpec extends WebSpecification {
 
     @Unroll
-    def "booking one way flight, from #fromAirportCode to #toAirportCode, for family, with wrong card details -> gives a payment declined error"() {
+    def "booking one way family flight, #fromAirportCode -> #toAirportCode, gives a payment declined error"() {
+
         when:
             getHomePage().fillFlightDetails(true,
                     fromAirportCode, expectedFromAirportDisplayedToUser,
@@ -32,7 +33,7 @@ class BookOneWayFamilySpec extends WebSpecification {
                     getBookingPaymentPage().waitForPaymentDeclinedError());
 
         and:
-            makeScreenShot();
+            takeScreenShot();
             DriverHelper.takeScreenshot("paymentDeclined");
             LogHelper.success("passed, payment error is displayed at " + BookingPaymentPage.PATH + " page");
 

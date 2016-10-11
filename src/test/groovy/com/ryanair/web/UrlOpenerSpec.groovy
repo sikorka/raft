@@ -11,12 +11,12 @@ import spock.lang.Unroll
 class UrlOpenerSpec extends WebSpecification {
 
     @Unroll
-    def "URL #url is opened it redirects to https"() {
+    def "#url redirects to #expectedUrl"() {
         when:
         getDriver().navigate().to(url);
 
         then:
-        makeScreenShot();
+        takeScreenShot();
         assertThat(getDriver().getCurrentUrl(), equalTo(expectedUrl));
 
         where:

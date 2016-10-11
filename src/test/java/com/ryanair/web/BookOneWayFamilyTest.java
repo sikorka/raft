@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 import com.ryanair.web.core.WebTest;
 import com.ryanair.web.pages.BookingPaymentPage;
 
+import com.ryanair.web.pages.HomePage;
 import org.junit.Test;
 import ru.yandex.qatools.allure.annotations.Step;
 
@@ -16,7 +17,6 @@ public class BookOneWayFamilyTest extends WebTest {
 
     @Test
     public void fillWrongCardDetailsExpectPaymentError() {
-
         fillFlightDetails();
         chooseFirstRegularFare();
         skipBookingExtras();
@@ -27,32 +27,44 @@ public class BookOneWayFamilyTest extends WebTest {
         assertThat("should not move forward, still payment page",
                 getBookingPaymentPage().whoAmI(), equalTo(BookingPaymentPage.PATH));
 
-        makeScreenShot();
+        takeScreenShot();
 
         LogHelper.success("passed, payment error is displayed at " + BookingPaymentPage.PATH + " page");
     }
 
     @Step
     public void fillFlightDetails() {
+
         getHomePage().fillFlightDetails(true, "DUB", "Dublin", "STA", "London Stansted", "03-11-2016", 2, 1);
-        makeScreenShot();
+        takeScreenShot();
+
+        getHomePage().waitForPath(HomePage.NEXT_PATH);
+
+        assertThat("should move forward, still home page",
+                getHomePage().whoAmI(), not(equalTo(HomePage.PATH)));
+        assertThat("should move to booking home page, did not",
+                getHomePage().whoAmI(), equalTo(HomePage.NEXT_PATH));
+
+        LogHelper.success("passed flight details on home page");
+
+        takeScreenShot();
     }
 
     @Step
     public void chooseFirstRegularFare() {
         getBookingHomePage().chooseFirstRegularFare();
-        makeScreenShot();
+        takeScreenShot();
     }
 
     @Step
     public void skipBookingExtras() {
         getBookingExtrasPage().skipBookingExtras();
-        makeScreenShot();
+        takeScreenShot();
     }
 
     @Step
     public void fillWrongCardDetails() {
         getBookingPaymentPage().fillWrongCardDetails(2, 1);
-        makeScreenShot();
+        takeScreenShot();
     }
 }

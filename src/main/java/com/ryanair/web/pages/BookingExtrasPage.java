@@ -60,7 +60,6 @@ public class BookingExtrasPage extends RyanairPage {
 
     public void skipBookingExtras() {
         if (amIme()) {
-
             clickNext();
 
             if (waitForSeatPopupPresent()) {

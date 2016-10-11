@@ -3,15 +3,11 @@ package com.ryanair.web.pages;
 import com.ryanair.web.DriverHelper;
 import com.ryanair.web.Utils;
 import com.ryanair.web.pages.core.RyanairPage;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-
-import java.math.BigInteger;
-import java.security.SecureRandom;
 
 /**
  * Booking payment page.

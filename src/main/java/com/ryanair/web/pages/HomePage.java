@@ -5,6 +5,7 @@ import com.ryanair.web.LogHelper;
 import com.ryanair.web.pages.core.RyanairPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import ru.yandex.qatools.allure.annotations.Step;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -221,6 +222,7 @@ public class HomePage extends RyanairPage {
      *  @see HomePage#DEFAULT_CHILDREN_AMOUNT
      *  @see HomePage#DEFAULT_ONE_WAY_FLIGHT_SELECTED
      *  */
+    @Step
     public void fillFlightDetails(boolean oneWay,
                                   String fromCode, String fromSelected,
                                   String toCode, String toSelected,
@@ -256,12 +258,12 @@ public class HomePage extends RyanairPage {
             closePromo();
         }
 
-        waitForPath(NEXT_PATH);
-        assertThat("should move forward, still home page",
-                whoAmI(), not(equalTo(PATH)));
-        assertThat("should move to booking home page, did not",
-                whoAmI(), equalTo(NEXT_PATH));
-
-        LogHelper.success("passed flight details on home page");
+//        waitForPath(NEXT_PATH);
+//        assertThat("should move forward, still home page",
+//                whoAmI(), not(equalTo(PATH)));
+//        assertThat("should move to booking home page, did not",
+//                whoAmI(), equalTo(NEXT_PATH));
+//
+//        LogHelper.success("passed flight details on home page");
     }
 }

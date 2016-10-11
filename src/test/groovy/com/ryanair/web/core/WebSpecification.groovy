@@ -5,6 +5,7 @@ import com.ryanair.web.pages.BookingExtrasPage;
 import com.ryanair.web.pages.BookingHomePage;
 import com.ryanair.web.pages.BookingPaymentPage;
 import com.ryanair.web.pages.HomePage
+import org.junit.After
 import org.openqa.selenium.OutputType
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver
@@ -16,26 +17,30 @@ import spock.lang.Specification;
  * Created by ana.
  */
 public class WebSpecification extends Specification {
-    WebDriver driver;
+    static WebDriver driver;
 
     private HomePage homePage;
     private BookingHomePage bookingHomePage;
     private BookingExtrasPage bookingExtrasPage;
     private BookingPaymentPage bookingPaymentPage;
 
-    def setup() {
+    def setupSpec() {
         driver = DriverHelper.getDriverFromProps();
     }
 
-    def cleanup() {
+    def cleanupSpec() {
         DriverHelper.getRidOfDriver();
         driver = null;
     }
 
+    def cleanup() {
+        DriverHelper.takeScreenshot(driver);
+    }
+
     @Attachment
-    @Step("Make screenshot of page")
-    public byte[] makeScreenShot() {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    @Step("Take screenshot of page")
+    public byte[] takeScreenShot() {
+        return DriverHelper.takeScreenshot(driver);
     }
 
     def getHomePage() {

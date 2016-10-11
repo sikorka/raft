@@ -69,12 +69,6 @@ open ./target/site/allure-maven-plugin.html
 ```
 
 
-DOC
----
-
-Just Java docs `open ./doc/index.html`.
-
-
 TODO
 ----
 

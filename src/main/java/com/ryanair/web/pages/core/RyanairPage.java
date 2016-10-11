@@ -8,6 +8,9 @@ import com.ryanair.web.pages.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
  * Any Ryanair page.
  *
@@ -25,16 +28,21 @@ public abstract class RyanairPage extends Page {
      *
      * */
     public String whoAmI() {
-        String path = driver.getCurrentUrl();
+        try {
+            URI currentUri = new URI(driver.getCurrentUrl());
+            String path = currentUri.getPath();
 
-        if (path.endsWith(BookingHomePage.PATH))
-            return BookingHomePage.PATH;
-        else if (path.endsWith(BookingExtrasPage.PATH))
-            return BookingExtrasPage.PATH;
-        else if (path.endsWith(BookingPaymentPage.PATH))
-            return BookingPaymentPage.PATH;
-        else if (path.equals(DriverHelper.getMainUrl()))
-                return HomePage.PATH;
+            if (path.endsWith(BookingHomePage.PATH))
+                return BookingHomePage.PATH;
+            else if (path.endsWith(BookingExtrasPage.PATH))
+                return BookingExtrasPage.PATH;
+            else if (path.endsWith(BookingPaymentPage.PATH))
+                return BookingPaymentPage.PATH;
+            else if (path.endsWith(new URI(DriverHelper.getMainUrl()).getPath()))
+                    return HomePage.PATH;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         return null;
     }
